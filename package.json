@@ -9,11 +9,11 @@
 		"url": "https://ahmedrangel.com/"
   },
 	"homepage": "https://github.com/ahmedrangel/tetrio-bot",
-  "repository": {
+	"repository": {
 		"type": "git",
 		"url": "https://github.com/ahmedrangel/tetrio-bot"
   },
-  "bugs": {
+	"bugs": {
 		"url": "https://github.com/ahmedrangel/tetrio-bot/issues"
   },
 	"license": "MIT",
