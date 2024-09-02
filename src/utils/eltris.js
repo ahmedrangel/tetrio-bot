@@ -556,14 +556,4 @@ class ElTetris {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 export default ElTetris;
