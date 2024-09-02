@@ -1,43 +1,43 @@
 {
-	"name": "tetrio-bot",
-	"version": "0.1.0",
-	"description": "A Tetris bot capable of automatically playing custom multiplayer matches in TETR.IO.",
-	"type": "module",
-	"author": {
-		"name": "Ahmed Rangel",
-		"email": "ahmedrangel@outlook.com",
-		"url": "https://ahmedrangel.com/"
+  "name": "tetrio-bot",
+  "version": "0.1.0",
+  "description": "A Tetris bot capable of automatically playing custom multiplayer matches in TETR.IO.",
+  "type": "module",
+  "author": {
+    "name": "Ahmed Rangel",
+    "email": "ahmedrangel@outlook.com",
+    "url": "https://ahmedrangel.com/"
   },
-	"homepage": "https://github.com/ahmedrangel/tetrio-bot",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ahmedrangel/tetrio-bot"
+  "homepage": "https://github.com/ahmedrangel/tetrio-bot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmedrangel/tetrio-bot"
   },
-	"bugs": {
-		"url": "https://github.com/ahmedrangel/tetrio-bot/issues"
+  "bugs": {
+    "url": "https://github.com/ahmedrangel/tetrio-bot/issues"
   },
-	"license": "MIT",
-	"keywords": [
-		"tetrio",
-		"tetr.io",
-		"tetris",
-		"eltetris",
-		"game",
-		"bot",
-		"typescript"
+  "license": "MIT",
+  "keywords": [
+    "tetrio",
+    "tetr.io",
+    "tetris",
+    "eltetris",
+    "game",
+    "bot",
+    "typescript"
   ],
-	"scripts": {
-		"start": "tsx src/index.ts",
-		"lint": "eslint --fix --config .config/eslint.mjs"
-	},
-	"devDependencies": {
-		"@haelp/teto": "^2.2.2",
-		"@stylistic/eslint-plugin": "^2.7.2",
-		"@types/node": "^22.5.1",
-		"@typescript-eslint/parser": "^8.3.0",
-		"dotenv": "^16.4.5",
-		"eslint": "^9.9.1",
-		"tsx": "^4.19.0",
-		"typescript": "^5.5.4"
-	}
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "lint": "eslint --fix --config .config/eslint.mjs"
+  },
+  "devDependencies": {
+    "@haelp/teto": "^2.2.2",
+    "@stylistic/eslint-plugin": "^2.7.2",
+    "@types/node": "^22.5.1",
+    "@typescript-eslint/parser": "^8.3.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.9.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
+  }
 }
