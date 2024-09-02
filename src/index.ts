@@ -102,7 +102,7 @@ class TetrioBot {
     this.eltetris.updateTetrioBoard(this.engine.board.state);
     this.eltetris.playMove(this.eltetris.board, orientation, column);
     console.info("\nMove #", this.moves, "piece:", this.currentPiece.toUpperCase(), "columna:", column);
-    this.changeOrientation(+orientationIndex);
+    this.changeOrientation(orientationIndex);
     this.moveToColumn(column);
     this.drop();
     this.moves++;
