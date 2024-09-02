@@ -4,7 +4,19 @@
  * Features that are used by the algorithm are implemented here.
  */
 
-function GetLandingHeight (last_move) {
+interface LastMove {
+  landing_height?: number;
+  piece?: number[];
+  rows_removed?: number;
+}
+
+interface Piece {
+  orientation: number[];
+  width: number;
+  height: number;
+}
+
+function GetLandingHeight (last_move: LastMove) {
   return last_move.landing_height + (last_move.piece.length - 1) / 2;
 }
 
@@ -13,7 +25,7 @@ function GetLandingHeight (last_move) {
  * A row transition occurs when an empty cell is adjacent to a filled cell
  * on the same row and vice versa.
  */
-function GetRowTransitions (board, num_columns) {
+function GetRowTransitions (board: number[], num_columns: number) {
   let transitions = 0;
   let last_bit = 1;
   let bit = 0;
@@ -44,7 +56,7 @@ function GetRowTransitions (board, num_columns) {
  * A column transition occurs when an empty cell is adjacent to a filled cell
  * on the same row and vice versa.
  */
-function GetColumnTransitions (board, num_columns) {
+function GetColumnTransitions (board: number[], num_columns: number) {
   let transitions = 0;
   let last_bit = 1;
 
@@ -66,7 +78,7 @@ function GetColumnTransitions (board, num_columns) {
   return transitions;
 }
 
-function GetNumberOfHoles (board, num_columns) {
+function GetNumberOfHoles (board: number[], num_columns: number) {
   let holes = 0;
   let row_holes = 0x0000;
   let previous_row = board[board.length - 1];
@@ -98,7 +110,7 @@ function GetNumberOfHoles (board, num_columns) {
  *    The well sums. For a well of length n, we define the well sums as
  *    1 + 2 + 3 + ... + n. This gives more significance to deeper holes.
  */
-function GetWellSums (board, num_columns) {
+function GetWellSums (board: number[], num_columns: number) {
   let well_sums = 0;
 
   // Check for well cells in the "inner columns" of the board.
@@ -168,7 +180,7 @@ function GetWellSums (board, num_columns) {
 /**
  * Defines the shapes and dimensions of the tetrominoes.
  */
-let PIECES = [];
+let PIECES = [] as Piece[][];
 
 /* 'I' piece:
   Orientations:
@@ -341,7 +353,7 @@ PIECES[6] = [
   }
 ];
 
-function parse (x) {
+function parse (x: string) {
   return parseInt(x.split("").reverse().join(""), 2);
 }
 
@@ -357,7 +369,12 @@ function parse (x) {
  *  number_of_rows - Number of rows in the tetris game.
  */
 class ElTetris {
-  constructor (number_of_columns, number_of_rows) {
+  number_of_rows: number;
+  number_of_columns: number;
+  rows_completed: number;
+  board: number[];
+  FULLROW: number;
+  constructor (number_of_columns: number, number_of_rows: number) {
     this.number_of_rows = number_of_rows;
     this.number_of_columns = number_of_columns;
     this.rows_completed = 0;
@@ -398,8 +415,8 @@ class ElTetris {
    *     * orientation - The orientation of the piece to use.
    *     * column - The column at which to place the piece.
    */
-  pickMove (pieceIndex) {
-    let piece = PIECES[pieceIndex];
+  pickMove (pieceIndex: Piece[]) {
+    let piece = PIECES[Number(pieceIndex)];
     let best_evaluation = -100000;
     let best_orientation = 0;
     let best_column = 0;
@@ -420,7 +437,7 @@ class ElTetris {
 
           if (evaluation > best_evaluation) {
             best_evaluation = evaluation;
-            best_orientation = i;
+            best_orientation = Number(i);
             best_column = j;
           }
         }
@@ -447,8 +464,8 @@ class ElTetris {
    *   A number indicating how "good" a board is, the higher the number, the
    *   better the board.
    */
-  evaluateBoard (last_move, board) {
-    return GetLandingHeight(last_move, board) * -4.500158825082766 +
+  evaluateBoard (last_move: LastMove, board: number[]) {
+    return GetLandingHeight(last_move) * -4.500158825082766 +
       last_move.rows_removed * 3.4181268101392694 +
       GetRowTransitions(board, this.number_of_columns) * -3.2178882868487753 +
       GetColumnTransitions(board, this.number_of_columns) * -9.348695305445199 +
@@ -466,7 +483,7 @@ class ElTetris {
    * Returns:
    *   True if play succeeded, False if game is over.
    */
-  playMove (board, piece, column) {
+  playMove (board: number[], piece: number[], column: number) {
     piece = this.movePiece(piece, column);
     let placementRow = this.getPlacementRow(board, piece);
     let rowsRemoved = 0;
@@ -503,7 +520,7 @@ class ElTetris {
   /**
    * Given a piece, return the row at which it should be placed.
    */
-  getPlacementRow (board, piece) {
+  getPlacementRow (board: number[], piece: number[]) {
     // Descend from top to find the highest row that will collide
     // with the our piece.
     for (let row = this.number_of_rows - piece.length; row >= 0; row--) {
@@ -518,7 +535,7 @@ class ElTetris {
 
     return 0; // No collision found, piece should be placed on first row.
   }
-  movePiece (piece, column) {
+  movePiece (piece: number[], column: number) {
     // Make a new copy of the piece
     let newPiece = piece.slice();
     for (let i = 0; i < piece.length; i++) {
@@ -536,7 +553,7 @@ class ElTetris {
   /**
    * ElTetris adaptation to update board using TETR.IO board states and converting to ElTetris default board.
    */
-  updateTetrioBoard (tetrioBoard) {
+  updateTetrioBoard (tetrioBoard: string[][]) {
     const numColumns = tetrioBoard[0].length;
     const newBoard = new Array(tetrioBoard.length);
 

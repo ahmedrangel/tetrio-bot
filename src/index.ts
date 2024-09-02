@@ -3,7 +3,7 @@ import type { Room } from "@haelp/teto/dist/types/classes/index";
 import type { Piece, Engine } from "@haelp/teto/dist/types/engine/index";
 import type { Game } from "@haelp/teto/dist/types/types/index";
 import { ORIENTATION_COLUMNS, PIECE_INDEXES, clientOpts, keyPress, sleep } from "./utils/helpers";
-import ElTetris from "./utils/eltris.js";
+import ElTetris from "./utils/eltris";
 import "dotenv/config";
 
 const token = process.env.TETRIO_TOKEN;
