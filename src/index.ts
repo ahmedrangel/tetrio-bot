@@ -18,9 +18,7 @@ class TetrioBot {
   room: Room;
   engine: Engine;
   currentPiece: Piece;
-  currentPieces: Piece[];
   playing: boolean;
-  currentFrame: number;
   keys: Game.Tick.Keypress[];
   constructor () {
     this.currentColumn = 4; // 5 if O
@@ -30,9 +28,7 @@ class TetrioBot {
     this.room = null;
     this.engine = null;
     this.currentPiece = null;
-    this.currentPieces = [];
     this.playing = false;
-    this.currentFrame = 0;
     this.keys = [];
   }
 
@@ -52,10 +48,6 @@ class TetrioBot {
   getFallingPiece () {
     this.currentPiece = this.engine.falling.symbol;
     this.currentColumn = this.currentPiece === "o" ? 5 : 4;
-  }
-
-  getNextPieces () {
-    this.currentPieces = this.engine.queue.value;
   }
 
   moveLeft () {
@@ -120,7 +112,6 @@ class TetrioBot {
     this.playing = false;
     this.moves = 0;
     this.keys = [];
-    this.currentPieces = [];
     this.currentPiece = null;
     this.currentColumn = 4;
     this.eltetris = new ElTetris(10, 20);
@@ -133,7 +124,6 @@ class TetrioBot {
     this.client.on("client.game.round.start", async (event) => {
       this.playing = true;
       this.engine = this.client.game.engine;
-      this.getNextPieces();
       this.getFallingPiece();
       const tick = event[0];
       tick(() => {
