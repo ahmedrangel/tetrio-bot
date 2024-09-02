@@ -1,7 +1,7 @@
 {
 	"name": "tetrio-bot",
 	"version": "0.1.0",
-	"description": "Tetris bot that automatically plays TETR.IO on a custom multiplayer room",
+	"description": "A Tetris bot capable of automatically playing custom multiplayer matches in TETR.IO.",
 	"type": "module",
 	"author": {
     "name": "Ahmed Rangel",
