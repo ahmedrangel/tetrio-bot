@@ -2,7 +2,7 @@ import { Client } from "@haelp/teto";
 import type { Room } from "@haelp/teto/dist/types/classes/index";
 import type { Piece, Engine } from "@haelp/teto/dist/types/engine/index";
 import type { Game } from "@haelp/teto/dist/types/types/index";
-import { ORIENTATION_COLUMNS, PIECE_INDEXES, clientOpts, keyPress, sleep } from "./utils/helpers";
+import { ORIENTATION_COLUMNS, PIECE_INDEXES, clientOpts, keyPress } from "./utils/helpers";
 import ElTetris from "./utils/eltetris";
 import "dotenv/config";
 
@@ -126,15 +126,15 @@ class TetrioBot {
       this.engine = this.client.game.engine;
       this.getFallingPiece();
       const tick = event[0];
-      tick(() => {
-        return {
-          keys: this.keys
-        };
+      tick(async (data) => {
+        if (this.playing && data.frame % 10 === 9) {
+          this.playMove();
+          return {
+            keys: this.keys
+          };
+        }
+        return {};
       });
-      while (this.playing) {
-        this.playMove();
-        await sleep(160);
-      }
     });
 
     this.client.on("client.game.over", () => {

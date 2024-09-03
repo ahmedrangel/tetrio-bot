@@ -22,8 +22,6 @@ export const ORIENTATION_COLUMNS = {
   Z: [4, 5]
 };
 
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const clientOpts = (credentials: { username: string, password: string } | { token: string }): ClientOptions => {
   return {
     ...credentials,
