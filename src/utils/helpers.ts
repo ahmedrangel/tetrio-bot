@@ -53,7 +53,7 @@ export const keyPress = (key: Game.Key, frame: Engine["frame"]): Game.Tick.Keypr
       type: "keyup",
       data: {
         key,
-        subframe: 0
+        subframe: .1
       }
     }
   ];
