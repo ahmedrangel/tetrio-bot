@@ -26,7 +26,7 @@ TETRIO_PASSWORD = "your_tetrio_password"
 pnpm start
 ```
 
-4. If the login is successful, the bot will create a custom private match with autostart settings, and the room code will be logged to the console like `Joined room: ABCD`.
+4. If the login is successful, the bot will create a custom private room with autostart settings, and the room code will be logged to the console like `Joined room: ABCD`.
 
 ## Demo
 The bot is the one on the right side.
