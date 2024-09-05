@@ -6,5 +6,5 @@ This project can be a good starting point to start developing tetrio bots.
 ## Demo
 The bot is the one on the right side.
 
-https://github.com/user-attachments/assets/d82d3142-da95-4e20-9d11-fdc811581ced
+https://github.com/user-attachments/assets/1eb69085-c2a1-4432-ad46-1371088a2901
 
