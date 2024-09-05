@@ -20,13 +20,15 @@ TETRIO_TOKEN = "your_tetrio_bot_token"
 TETRIO_USERNAME = "your_tetrio_username"
 TETRIO_PASSWORD = "your_tetrio_password"
 ```
-
 3. Start the bot
 ```bash
 pnpm start
 ```
 
 4. If the login is successful, the bot will create a custom private room with autostart settings, and the room code will be logged to the console like `Joined room: ABCD`.
+
+## Disclaimer
+You must use an account that has been approved as a bot account, otherwise you risk being banned. Contact [TETR.IO Support](https://tetr.io/about/support/) to request a bot account.
 
 ## Demo
 The bot is the one on the right side.
