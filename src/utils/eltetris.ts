@@ -417,7 +417,7 @@ class ElTetris {
       for (let i in piece) {
         let orientation = piece[i].orientation;
 
-        // Evaluar every possible column
+        // Evaluate every possible column
         for (let j = 0; j < this.number_of_columns - piece[i].width + 1; j++) {
           // Copy the board
           let board = this.board.slice();
@@ -446,7 +446,7 @@ class ElTetris {
     // Evaluate with actual piece
     const currentPieceMove = evaluatePiece(piece);
 
-    // Evaluar with hold piece
+    // Evaluate with hold piece
     const holdPieceMove = evaluatePiece(holdPiece);
 
     // Compare evaluations and choose the best
