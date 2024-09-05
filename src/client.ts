@@ -1,5 +1,4 @@
 import { Client } from "@haelp/teto";
-import type { Room } from "@haelp/teto/dist/types/classes/index";
 import type { Piece, Engine } from "@haelp/teto/dist/types/engine/index";
 import type { Game } from "@haelp/teto/dist/types/types/index";
 import { ORIENTATION_COLUMNS, PIECE_INDEXES, clientOpts, keyPress } from "./utils/helpers";
@@ -10,7 +9,6 @@ class TetrioBotClient {
   private currentColumn: number;
   private moves: number;
   private client: Client;
-  private room: Room;
   private engine: Engine;
   private currentPiece: Piece;
   private nextPieces: Piece[];
