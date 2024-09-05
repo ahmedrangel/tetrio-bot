@@ -388,18 +388,6 @@ class ElTetris {
 
     this.FULLROW = Math.pow(2, number_of_columns) - 1;
   }
-  play () {
-    let piece = this.getRandomPiece();
-    let move = this.pickMove(piece);
-
-    let last_move = this.playMove(this.board, move.orientation, move.column);
-
-    if (!last_move.game_over) {
-      this.rows_completed += last_move.rows_removed;
-    }
-
-    return last_move;
-  }
   /**
    * Pick the best move possible (orientation and location) as determined by the
    * evaluation function.
@@ -415,39 +403,67 @@ class ElTetris {
    *     * orientation - The orientation of the piece to use.
    *     * column - The column at which to place the piece.
    */
-  pickMove (pieceIndex: Piece[]) {
+  pickMove (pieceIndex: Piece[], holdPieceIndex: Piece[]) {
     let piece = PIECES[Number(pieceIndex)];
-    let best_evaluation = -100000;
-    let best_orientation = 0;
-    let best_column = 0;
-    let evaluation = undefined;
+    let holdPiece = PIECES[Number(holdPieceIndex)];
 
-    // Evaluate all possible orientations
-    for (let i in piece) {
-      let orientation = piece[i].orientation;
+    // Function to evaluate a piece
+    const evaluatePiece = (piece: Piece[]) => {
+      let evaluation = -100000;
+      let best_orientation = 0;
+      let best_column = 0;
 
-      // Evaluate all possible columns
-      for (let j = 0; j < this.number_of_columns - piece[i].width + 1; j++) {
-        // Copy current board
-        let board = this.board.slice();
-        let last_move = this.playMove(board, orientation, j);
+      // Evaluate every orientation
+      for (let i in piece) {
+        let orientation = piece[i].orientation;
 
-        if (!last_move.game_over) {
-          evaluation = this.evaluateBoard(last_move, board);
+        // Evaluar every possible column
+        for (let j = 0; j < this.number_of_columns - piece[i].width + 1; j++) {
+          // Copy the board
+          let board = this.board.slice();
+          let last_move = this.playMove(board, orientation, j);
 
-          if (evaluation > best_evaluation) {
-            best_evaluation = evaluation;
-            best_orientation = Number(i);
-            best_column = j;
+          if (!last_move.game_over) {
+            let current_evaluation = this.evaluateBoard(last_move, board);
+
+            if (current_evaluation > evaluation) {
+              evaluation = current_evaluation;
+              best_orientation = Number(i);
+              best_column = j;
+            }
           }
         }
       }
+
+      return {
+        evaluation,
+        orientation: piece[best_orientation].orientation,
+        column: best_column,
+        orientationIndex: best_orientation
+      };
+    };
+
+    // Evaluate with actual piece
+    const currentPieceMove = evaluatePiece(piece);
+
+    // Evaluar with hold piece
+    const holdPieceMove = evaluatePiece(holdPiece);
+
+    // Compare evaluations and choose the best
+    if (holdPieceMove.evaluation > currentPieceMove.evaluation) {
+      return {
+        orientation: holdPieceMove.orientation,
+        column: holdPieceMove.column,
+        orientationIndex: holdPieceMove.orientationIndex,
+        hold: true
+      };
     }
 
     return {
-      orientation: piece[best_orientation].orientation,
-      column: best_column,
-      orientationIndex: best_orientation
+      orientation: currentPieceMove.orientation,
+      column: currentPieceMove.column,
+      orientationIndex: currentPieceMove.orientationIndex,
+      hold: false
     };
   }
   /**

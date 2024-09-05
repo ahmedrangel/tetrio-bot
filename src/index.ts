@@ -18,6 +18,8 @@ class TetrioBot {
   room: Room;
   engine: Engine;
   currentPiece: Piece;
+  nextPieces: Piece[];
+  heldPiece: Piece;
   playing: boolean;
   keys: Game.Tick.Keypress[];
   constructor () {
@@ -28,6 +30,8 @@ class TetrioBot {
     this.room = null;
     this.engine = null;
     this.currentPiece = null;
+    this.nextPieces = [];
+    this.heldPiece = null;
     this.playing = false;
     this.keys = [];
   }
@@ -50,6 +54,10 @@ class TetrioBot {
     this.currentColumn = this.currentPiece === "o" ? 5 : 4;
   }
 
+  getNextPieces () {
+    this.nextPieces = this.engine.queue.value;
+  }
+
   moveLeft () {
     console.info("<- Left");
     this.keys.push(...keyPress("moveLeft", this.engine.frame));
@@ -58,6 +66,20 @@ class TetrioBot {
   moveRight () {
     console.info("-> Right");
     this.keys.push(...keyPress("moveRight", this.engine.frame));
+  }
+
+  hold () {
+    console.info("[] Hold");
+    this.keys.push(...keyPress("hold", this.engine.frame));
+    if (!this.heldPiece) {
+      this.heldPiece = this.currentPiece;
+      this.currentPiece = this.nextPieces[0];
+    }
+    else {
+      const tmp = this.heldPiece;
+      this.heldPiece = this.currentPiece;
+      this.currentPiece = tmp;
+    }
   }
 
   drop () {
@@ -74,7 +96,7 @@ class TetrioBot {
     if (orientation === 3)
       this.keys.push(...keyPress("rotateCCW", this.engine.frame));
 
-    this.currentColumn = ORIENTATION_COLUMNS[this.currentPiece.toUpperCase()][orientation];
+    this.currentColumn = ORIENTATION_COLUMNS[String(this.currentPiece)][orientation];
   }
 
   moveToColumn (column: number) {
@@ -97,8 +119,11 @@ class TetrioBot {
 
   playMove () {
     this.getFallingPiece();
-    const move = this.eltetris.pickMove(PIECE_INDEXES[this.currentPiece.toUpperCase()]);
-    const { orientationIndex, orientation, column } = move;
+    this.getNextPieces();
+    const holdConsideration = this.heldPiece ? PIECE_INDEXES[String(this.heldPiece)] : PIECE_INDEXES[String(this.nextPieces[0])];
+    const move = this.eltetris.pickMove(PIECE_INDEXES[String(this.currentPiece)], holdConsideration);
+    const { orientationIndex, orientation, column, hold } = move;
+    if (hold) this.hold();
     this.eltetris.updateTetrioBoard(this.engine.board.state);
     this.eltetris.playMove(this.eltetris.board, orientation, column);
     console.info("\nMove #", this.moves, "piece:", this.currentPiece.toUpperCase(), "columna:", column);
@@ -121,6 +146,7 @@ class TetrioBot {
     const credentials = token ? { token } : { username, password };
     await this.login(credentials);
     await this.createRoom("private");
+
     this.client.on("client.game.round.start", async (event) => {
       this.playing = true;
       this.engine = this.client.game.engine;

@@ -3,23 +3,23 @@ import type { Engine } from "@haelp/teto/dist/types/engine";
 import type { Game } from "@haelp/teto/dist/types/types/index";
 
 export const PIECE_INDEXES = {
-  I: 0,
-  T: 1,
-  O: 2,
-  J: 3,
-  L: 4,
-  S: 5,
-  Z: 6
+  i: 0,
+  t: 1,
+  o: 2,
+  j: 3,
+  l: 4,
+  s: 5,
+  z: 6
 };
 
 export const ORIENTATION_COLUMNS = {
-  I: [4, 6],
-  T: [4, 5, 4, 4],
-  O: [5],
-  L: [4, 5, 4, 4],
-  S: [4, 5],
-  J: [4, 5, 4, 4],
-  Z: [4, 5]
+  i: [4, 6],
+  t: [4, 5, 4, 4],
+  o: [5],
+  l: [4, 5, 4, 4],
+  s: [4, 5],
+  j: [4, 5, 4, 4],
+  z: [4, 5]
 };
 
 export const clientOpts = (credentials: { username: string, password: string } | { token: string }): ClientOptions => {
