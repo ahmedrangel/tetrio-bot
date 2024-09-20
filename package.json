@@ -31,13 +31,13 @@
     "lint": "eslint --fix --config .config/eslint.mjs"
   },
   "devDependencies": {
-    "@haelp/teto": "^2.2.2",
-    "@stylistic/eslint-plugin": "^2.7.2",
-    "@types/node": "^22.5.1",
-    "@typescript-eslint/parser": "^8.3.0",
+    "@haelp/teto": "^2.3.1",
+    "@stylistic/eslint-plugin": "^2.8.0",
+    "@types/node": "^22.5.5",
+    "@typescript-eslint/parser": "^8.6.0",
     "dotenv": "^16.4.5",
-    "eslint": "^9.9.1",
-    "tsx": "^4.19.0",
-    "typescript": "^5.5.4"
+    "eslint": "^9.11.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
   }
 }
