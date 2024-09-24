@@ -8,6 +8,7 @@ const credentials = token ? { token } : { username, password };
 
 const client = new TetrioBotClient();
 await client.login(credentials);
+client.setPps(6);
 const room = await client.createRoom("private");
 room.update({ index: "autoStart", value: 15 });
 console.info("Joined room:", room.id);

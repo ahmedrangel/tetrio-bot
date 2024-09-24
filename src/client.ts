@@ -15,6 +15,7 @@ class TetrioBotClient {
   private heldPiece: Piece;
   private playing: boolean;
   private keys: Game.Tick.Keypress[];
+  private pps: number;
   constructor () {
     this.currentColumn = 4; // 5 if O
     this.eltetris = new ElTetris(10, 20);
@@ -26,6 +27,7 @@ class TetrioBotClient {
     this.heldPiece = null;
     this.playing = false;
     this.keys = [];
+    this.pps = 6;
   }
 
   async login (credentials: { username: string, password: string } | { token: string }) {
@@ -37,6 +39,10 @@ class TetrioBotClient {
 
   async createRoom (type: "public" | "private") {
     return await this.client.rooms.create(type);
+  }
+
+  setPps (pps: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10) {
+    this.pps = pps;
   }
 
   private getFallingPiece () {
@@ -138,8 +144,9 @@ class TetrioBotClient {
       this.engine = this.client.game.engine;
       this.getFallingPiece();
       const tick = event[0];
+      const fps = 60 / this.pps;
       tick(async (data) => {
-        if (this.playing && data.frame % 10 === 9) {
+        if (this.playing && data.frame % fps === fps - 1) {
           this.playMove();
           return { keys: this.keys };
         }
