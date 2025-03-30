@@ -1,7 +1,5 @@
-import { Client } from "@haelp/teto";
-import type { Piece, Engine } from "@haelp/teto/dist/types/engine/index";
-import type { Game } from "@haelp/teto/dist/types/types/index";
-import { ORIENTATION_COLUMNS, PIECE_INDEXES, clientOpts, keyPress } from "./utils/helpers";
+import { Client, type Types, type Engine } from "@haelp/teto";
+import { orientationColumns, pieceIndexes, clientOpts, keyPress } from "./utils/helpers";
 import ElTetris from "./utils/eltetris";
 
 class TetrioBotClient {
@@ -9,12 +7,12 @@ class TetrioBotClient {
   private currentColumn: number;
   private moves: number;
   private client: Client;
-  private engine: Engine;
-  private currentPiece: Piece;
-  private nextPieces: Piece[];
-  private heldPiece: Piece;
+  private engine: Engine.Engine;
+  private currentPiece: Engine.Mino;
+  private nextPieces: Engine.Mino[];
+  private heldPiece: Engine.Mino;
   private playing: boolean;
-  private keys: Game.Tick.Keypress[];
+  private keys: Types.Game.Tick.Keypress[];
   private pps: number;
   constructor () {
     this.currentColumn = 4; // 5 if O
@@ -92,7 +90,7 @@ class TetrioBotClient {
     if (orientation === 3)
       this.keys.push(...keyPress("rotateCCW", this.engine.frame));
 
-    this.currentColumn = ORIENTATION_COLUMNS[String(this.currentPiece)][orientation];
+    this.currentColumn = orientationColumns[String(this.currentPiece)][orientation];
   }
 
   private moveToColumn (column: number) {
@@ -116,8 +114,8 @@ class TetrioBotClient {
   private playMove () {
     this.getFallingPiece();
     this.getNextPieces();
-    const holdConsideration = this.heldPiece ? PIECE_INDEXES[String(this.heldPiece)] : PIECE_INDEXES[String(this.nextPieces[0])];
-    const move = this.eltetris.pickMove(PIECE_INDEXES[String(this.currentPiece)], holdConsideration);
+    const holdConsideration = this.heldPiece ? pieceIndexes[String(this.heldPiece)] : pieceIndexes[String(this.nextPieces[0])];
+    const move = this.eltetris.pickMove(pieceIndexes[String(this.currentPiece)], holdConsideration);
     const { orientationIndex, orientation, column, hold } = move;
     if (hold) this.hold();
     this.eltetris.updateTetrioBoard(this.engine.board.state);

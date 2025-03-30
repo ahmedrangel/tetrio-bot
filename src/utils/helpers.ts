@@ -1,8 +1,6 @@
-import type { ClientOptions } from "@haelp/teto/dist/types/classes";
-import type { Engine } from "@haelp/teto/dist/types/engine";
-import type { Game } from "@haelp/teto/dist/types/types/index";
+import type { Types, Classes } from "@haelp/teto";
 
-export const PIECE_INDEXES = {
+export const pieceIndexes = {
   i: 0,
   t: 1,
   o: 2,
@@ -12,7 +10,7 @@ export const PIECE_INDEXES = {
   z: 6
 };
 
-export const ORIENTATION_COLUMNS = {
+export const orientationColumns = {
   i: [4, 6],
   t: [4, 5, 4, 4],
   o: [5],
@@ -22,7 +20,7 @@ export const ORIENTATION_COLUMNS = {
   z: [4, 5]
 };
 
-export const clientOpts = (credentials: { username: string, password: string } | { token: string }): ClientOptions => {
+export const clientOpts = (credentials: { username: string, password: string } | { token: string }): Classes.ClientOptions => {
   return {
     ...credentials,
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 OPR/112.0.0.0",
@@ -33,12 +31,14 @@ export const clientOpts = (credentials: { username: string, password: string } |
       sdf: 41,
       safelock: false,
       cancel: false,
-      may20g: true
+      may20g: true,
+      ihs: "tap",
+      irs: "tap"
     }
   };
 };
 
-export const keyPress = (key: Game.Key, frame: Engine["frame"]): Game.Tick.Keypress[] => {
+export const keyPress = (key: Types.Game.Key, frame: number): Types.Game.Tick.Keypress[] => {
   return [
     {
       frame: frame,

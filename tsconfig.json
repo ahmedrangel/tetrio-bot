@@ -13,9 +13,6 @@
     "resolveJsonModule": true,
     "removeComments": true,
     "esModuleInterop": true,
-    "lib": ["ESNext"],
-    "paths": {
-		  "@triangle": ["./path/to/triangle/src"]
-    }
+    "lib": ["ESNext"]
   }
 }

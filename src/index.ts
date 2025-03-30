@@ -1,5 +1,7 @@
 import TetrioBotClient from "./client";
-process.loadEnvFile();
+import { loadEnvFile } from "node:process";
+
+loadEnvFile();
 
 const token = process.env.TETRIO_TOKEN;
 const username = process.env.TETRIO_USERNAME;
